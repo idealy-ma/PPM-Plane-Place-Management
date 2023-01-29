@@ -3,7 +3,13 @@
     Created on : Jan 29, 2023, 4:10:25 PM
     Author     : i.m.a
 --%>
-
+<%@page import="model.Vol"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="service.VolService"%>
+<%
+    VolService vs = new VolService();
+    ArrayList<Object> listeVol = vs.getVolListe();
+%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -16,15 +22,19 @@
         <table>
             <tr>
                 <th>Nom</th>
-                <th>Date</th>
+                <th>Date et Heure</th>
                 <th>Pays</th>
             </tr>
-            <tr>
-                <td>AV-01</td>
-                <td>12-12-2022</td>
-                <td>MG-USA</td>
-                <td><a href="detail-vol.jsp">Details du vols</a></td>
-            </tr>
+            <% for (Object object : listeVol) { 
+                Vol vol = (Vol) object;
+            %>
+                <tr>
+                    <td><%= vol.getNomDuVol() %></td>
+                    <td><%= vol.getDateDeVol() %></td>
+                    <td><%= vol.getPays() %></td>
+                    <td><a href="detail-vol.jsp?id=<%= vol.getId()%>">Details du vols</a></td>
+                </tr>     
+            <% } %>
         </table>
     </body>
 </html>

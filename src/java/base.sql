@@ -147,6 +147,8 @@ SELECT * FROM v_detailsavion;
 SELECT * FROM avioncategorie;
 SELECT * FROM reservationclient;
 SELECT * FROM v_nombre_place_by_cat_by_vol;
+SELECT * FROM v_details_vol;
+SELECT * FROM vol;
 
 CREATE OR REPLACE VIEW v_details_vol AS(
     SELECT vol.*,
