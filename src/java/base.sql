@@ -39,7 +39,7 @@ CREATE TABLE Categorie (
 CREATE TABLE Client (
   id     int4 NOT NULL, 
   nom    varchar(80), 
-  prenom int4, 
+  prenom varchar(80), 
   PRIMARY KEY (id)
 );
 
@@ -75,3 +75,92 @@ ALTER TABLE ReservationClient ADD CONSTRAINT FKReservatio60111 FOREIGN KEY (Clie
 ALTER TABLE ReservationClient ADD CONSTRAINT FKReservatio655976 FOREIGN KEY (Volid) REFERENCES Vol (id);
 ALTER TABLE ReservationClient ADD CONSTRAINT FKReservatio213241 FOREIGN KEY (Categorieid) REFERENCES Categorie (id);
 ALTER TABLE placeReserve ADD CONSTRAINT FKplaceReser5603 FOREIGN KEY (ReservationClientid) REFERENCES ReservationClient (id);
+
+-- Insert
+
+INSERT INTO avion VALUES (default, 'Boeing-314');
+INSERT INTO avion VALUES (default, 'Boeing-315');
+
+INSERT INTO categorie VALUES (default, 'Business Class');
+INSERT INTO categorie VALUES (default, 'Live Class');
+INSERT INTO categorie VALUES (default, 'Premium Class');
+
+
+INSERT INTO avionCategorie VALUES (1, 1, 1, 10, 5000000);
+INSERT INTO avionCategorie VALUES (1, 2, 11, 20, 12000000);
+INSERT INTO avionCategorie VALUES (1, 3, 20, 30, 30000000);
+
+INSERT INTO vol VALUES (default, '2023-12-10 13:00', 'VO-01', 'MG-USA', 1);
+INSERT INTO vol VALUES (default, '2023-12-10 14:00', 'VO-02', 'MG-FRS', 1);
+
+INSERT INTO client VALUES (nextval('seq_Client'), 'RAZAFY', 'Idealy');
+INSERT INTO client VALUES (nextval('seq_Client'), 'RAZAFY', 'Sarobidy');
+INSERT INTO client VALUES (nextval('seq_Client'), 'RANDRIA', 'Holy');
+INSERT INTO client VALUES (nextval('seq_Client'), 'RAZAFY', 'Tovo');
+
+INSERT INTO reservationclient VALUES (default, 1, 1, 1, 2);
+INSERT INTO reservationclient VALUES (default, 2, 1, 2, 3);
+INSERT INTO reservationclient VALUES (default, 3, 1, 3, 2);
+INSERT INTO reservationclient VALUES (default, 4, 1, 1, 1);
+
+create or replace view v_detailsAvion AS(
+    SELECT avioncategorie.avionid,
+           avion.nom,
+           avioncategorie.categorieid,
+           categorie.label,
+           placedebut,
+           placefin,
+           (placefin-placedebut)+1 nombreDePlace,
+           prix
+    FROM avionCategorie 
+    join avion on avion.id = avioncategorie.avionid
+    join categorie on avioncategorie.categorieid = categorie.id
+);
+
+SELECT vol.*, avion.nom 
+FROM vol
+JOIN avion
+ON avion.id = vol.avionid
+WHERE vol.id=1;
+
+SELECT reservationclient.clientid, 
+       client.nom,
+       client.prenom,
+       reservationclient.nombredeplace,
+       vol.*
+FROM reservationclient
+JOIN vol
+ON vol.id = reservationclient.volid
+JOIN client
+ON client.id = reservationclient.clientid;
+
+DROP VIEW v_nombre_place_by_cat_by_vol;
+CREATE OR REPLACE VIEW v_nombre_place_by_cat_by_vol AS(
+    SELECT reservationclient.categorieid, sum(nombredeplace) nombredeplace, reservationclient.volid
+    FROM reservationclient
+    JOIN vol
+    ON vol.id = reservationclient.volid
+    GROUP BY categorieid, reservationclient.volid
+);
+
+SELECT * FROM v_detailsavion;
+SELECT * FROM avioncategorie;
+SELECT * FROM reservationclient;
+SELECT * FROM v_nombre_place_by_cat_by_vol;
+
+CREATE OR REPLACE VIEW v_details_vol AS(
+    SELECT vol.*,
+           v_detailsavion.nom,
+           v_detailsavion.categorieid,
+           v_detailsavion.label,
+           (v_detailsavion.nombredeplace-v_nombre_place_by_cat_by_vol.nombredeplace) placeDispo
+    FROM v_nombre_place_by_cat_by_vol
+    JOIN vol
+    ON vol.id = v_nombre_place_by_cat_by_vol.volid
+    JOIN v_detailsavion
+    ON v_detailsavion.categorieid = v_nombre_place_by_cat_by_vol.categorieid
+);
+
+SELECT * 
+FROM reservationclient
+WHERE clientid = 1;

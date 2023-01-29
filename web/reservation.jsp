@@ -29,13 +29,15 @@
                 </div>
                 <h3>Classe et nombre de place</h3>
                 <div>
-                    <label>Class 1
+                    <label>
                         <input type="checkbox" name="class" value="1">
+                        Class 1
                     </label>
                 </div>
                 <div>
-                    <label>Class 2
+                    <label>
                         <input type="checkbox" name="class" value="2">
+                        Class 2
                     </label>
                 </div>
                 <div>
