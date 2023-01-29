@@ -15,13 +15,13 @@
         <h1>Information du vol</h1>
         <p><a href="reservation.jsp?id-vol=1">Reservation</a></p>
         <p><b>Nom : </b> VO-01</p>
-        <p><b>Date : </b> VO-01</p>
-        <p><b>Pays : </b> VO-01</p>
+        <p><b>Date : </b> 12-12-2048</p>
+        <p><b>Pays : </b> MG-USA</p>
         <p><b>Avion : </b> Boeing-314 <a href="voir-avion.jsp?id=1">Voir</a></p>
 
         <p><b>Etats de l'avion</b></p>
         <div>
-            <table border="1">
+            <table>
                 <thead>
                     <tr>
                         <th>Class 1</th>

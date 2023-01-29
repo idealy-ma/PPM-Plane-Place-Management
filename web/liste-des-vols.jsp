@@ -23,7 +23,7 @@
                 <td>AV-01</td>
                 <td>12-12-2022</td>
                 <td>MG-USA</td>
-                <td><a href="detail-vol">Details du vols</a></td>
+                <td><a href="detail-vol.jsp">Details du vols</a></td>
             </tr>
         </table>
     </body>
