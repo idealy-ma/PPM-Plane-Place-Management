@@ -33,12 +33,7 @@
                         <input type="checkbox" name="class" value="1">
                         Class 1
                     </label>
-                </div>
-                <div>
-                    <label>
-                        <input type="checkbox" name="class" value="2">
-                        Class 2
-                    </label>
+                    <input type="text" name="numberClass" placeholder="1">
                 </div>
                 <div>
                     <input type="submit" value="Valider">

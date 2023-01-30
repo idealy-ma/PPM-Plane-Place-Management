@@ -55,7 +55,8 @@ CREATE TABLE ReservationClient (
   Clientid      int4 NOT NULL, 
   Volid         int4 NOT NULL, 
   Categorieid   int4 NOT NULL, 
-  nombreDePlace int4 NOT NULL, 
+  nombreDePlace int4 NOT NULL,
+  dateDeReservation timestamp not null default current_timestamp,
   PRIMARY KEY (id)
 );
 
@@ -102,6 +103,21 @@ INSERT INTO reservationclient VALUES (default, 1, 1, 1, 2);
 INSERT INTO reservationclient VALUES (default, 2, 1, 2, 3);
 INSERT INTO reservationclient VALUES (default, 3, 1, 3, 2);
 INSERT INTO reservationclient VALUES (default, 4, 1, 1, 1);
+INSERT INTO reservationclient VALUES (default, 4, 2, 1, 4);
+
+
+INSERT INTO placereserve VALUES (default, 4, 1);
+INSERT INTO placereserve VALUES (default, 5, 1);
+
+INSERT INTO placereserve VALUES (default, 12, 2);
+INSERT INTO placereserve VALUES (default, 13, 2);
+INSERT INTO placereserve VALUES (default, 16, 2);
+
+INSERT INTO placereserve VALUES (default, 1, 5);
+INSERT INTO placereserve VALUES (default, 2, 5);
+INSERT INTO placereserve VALUES (default, 3, 5);
+INSERT INTO placereserve VALUES (default, 4, 5);
+
 
 create or replace view v_detailsAvion AS(
     SELECT avioncategorie.avionid,
@@ -163,6 +179,29 @@ CREATE OR REPLACE VIEW v_details_vol AS(
     ON v_detailsavion.categorieid = v_nombre_place_by_cat_by_vol.categorieid
 );
 
-SELECT * 
-FROM reservationclient
-WHERE clientid = 1;
+CREATE OR REPLACE VIEW v_placeReservation_Client AS (
+    SELECT numero, v_detailsavion.avionid, volid, clientid,prix
+    FROM reservationclient
+    JOIN placereserve
+    ON placereserve.reservationclientid = reservationclient.id
+    JOIN vol
+    ON vol.id = reservationclient.volid
+    JOIN v_detailsavion
+    ON v_detailsavion.avionid = vol.avionid
+    WHERE (placereserve.numero between v_detailsavion.placedebut and v_detailsavion.placefin)
+);
+
+SELECT numero, v_detailsavion.avionid, volid, clientid,prix
+    FROM reservationclient
+    JOIN placereserve
+    ON placereserve.reservationclientid = reservationclient.id
+    JOIN vol
+    ON vol.id = reservationclient.volid
+    JOIN v_detailsavion
+    ON v_detailsavion.avionid = vol.avionid
+    WHERE (placereserve.numero between v_detailsavion.placedebut and v_detailsavion.placefin);
+
+-- Alaina daholo ny liste ny seza par classe de l'avion
+
+SELECT *
+FROM v_placereservation_client;
