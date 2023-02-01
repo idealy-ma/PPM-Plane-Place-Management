@@ -32,7 +32,7 @@
                     <td><%= vol.getNomDuVol() %></td>
                     <td><%= vol.getDateDeVol() %></td>
                     <td><%= vol.getPays() %></td>
-                    <td><a href="detail-vol.jsp?id=<%= vol.getId()%>">Details du vols</a></td>
+                    <td><a href="reservation.jsp?id-vol=<%= vol.getId()%>&avion=<%= vol.getAvionId() %>">Details du vols</a></td>
                 </tr>     
             <% } %>
         </table>

@@ -19,6 +19,7 @@ public class Vol extends BddObject{
     private String nomDuVol;
     private String pays;
     private int avionId;
+    private ClassTarif[] tarif;
 
     public int getId() {
         return id;
@@ -58,5 +59,13 @@ public class Vol extends BddObject{
 
     public void setAvionId(int avionId) {
         this.avionId = avionId;
+    }
+
+    public ClassTarif[] getTarif() {
+        return tarif;
+    }
+
+    public void setTarif(ClassTarif[] tarif) {
+        this.tarif = tarif;
     }
 }

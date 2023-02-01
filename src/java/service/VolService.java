@@ -9,7 +9,6 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.InfoVol;
 import model.Vol;
 
 /**
@@ -18,7 +17,6 @@ import model.Vol;
  */
 public class VolService {
     private ArrayList<Object> volListe;
-    private ArrayList<InfoVol> listeInfoVol;
     private BDD bdd;
 
     public VolService() throws Exception {
@@ -29,8 +27,6 @@ public class VolService {
             throw ex;
         }
     }
-    
-    
 
     public ArrayList<Object> getVolListe() throws Exception {
         if(volListe == null) {
@@ -44,21 +40,5 @@ public class VolService {
             }
         }
         return volListe;
-    }
-
-    public ArrayList<InfoVol> getListeInfoVol(int id) throws Exception {
-        if(listeInfoVol == null) {
-            try {
-                try (Connection c = bdd.getConnection()) {
-                    InfoVol i = new InfoVol();
-                    i.setId(id);
-                    listeInfoVol = i.findInfo(c);
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(VolService.class.getName()).log(Level.SEVERE, null, ex);
-                throw ex;
-            }
-        }
-        return listeInfoVol;
     }
 }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/home/i.m.a/Documents/Projet/PPM-Plane-Place-Management/web/choixPlace.jsp</file>
+            <file>file:/home/i.m.a/Documents/Projet/PPM-Plane-Place-Management/src/java/model/Vol.java</file>
+            <file>file:/home/i.m.a/Documents/Projet/PPM-Plane-Place-Management/src/java/model/Client.java</file>
+            <file>file:/home/i.m.a/Documents/Projet/PPM-Plane-Place-Management/web/traitement/choixPlace.jsp</file>
+            <file>file:/home/i.m.a/Documents/Projet/PPM-Plane-Place-Management/web/liste-des-vols.jsp</file>
+            <file>file:/home/i.m.a/Documents/Projet/PPM-Plane-Place-Management/src/java/base.sql</file>
+            <file>file:/home/i.m.a/Documents/Projet/PPM-Plane-Place-Management/web/ajoutInformation.jsp</file>
+            <file>file:/home/i.m.a/Documents/Projet/PPM-Plane-Place-Management/src/java/model/Reservation.java</file>
+            <file>file:/home/i.m.a/Documents/Projet/PPM-Plane-Place-Management/web/reservation.jsp</file>
+            <file>file:/home/i.m.a/Documents/Projet/PPM-Plane-Place-Management/src/java/service/ReservationService.java</file>
+            <file>file:/home/i.m.a/Documents/Projet/PPM-Plane-Place-Management/web/traitement/insertReservation.jsp</file>
+            <file>file:/home/i.m.a/Documents/Projet/PPM-Plane-Place-Management/src/java/model/Place.java</file>
+            <file>file:/home/i.m.a/Documents/Projet/PPM-Plane-Place-Management/src/java/model/ClassTarif.java</file>
+            <file>file:/home/i.m.a/Documents/Projet/PPM-Plane-Place-Management/src/java/service/VolService.java</file>
+            <file>file:/home/i.m.a/Documents/Projet/PPM-Plane-Place-Management/src/java/model/InfoAvion.java</file>
+        </group>
+    </open-files>
+</project-private>
