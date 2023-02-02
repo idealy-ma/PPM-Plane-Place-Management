@@ -153,6 +153,35 @@ public class Avion extends BddObject{
         return listePlace;
     }
     
+    public ArrayList<Place> getPlaceOk(Place place, ContraintePlace contraintePlace ,Client responsable, ArrayList<Client> responser, int idVol) throws Exception{
+        ArrayList<Place> listePlace = new ArrayList<>();        
+        // Controle si l'age est trop bas
+        if(place.getRange() == contraintePlace.getRang() && responsable.getAge()< contraintePlace.getAgeMin()){
+            throw new Exception("Age trop bas");
+        }
+        
+        place.setChecked(true);
+        listePlace.add(place);
+        // Information
+        Place[] places = this.getPlace(idVol);
+        ArrayList<DistancePlace> distPlace = distancePlaces(place, places);
+        // Traitement selection des places des responser plus pres
+        for (Client client : responser) {
+            for (DistancePlace place1 : distPlace) {
+                if(place1.getPlace().getRange() == contraintePlace.getRang() && client.getAge() < contraintePlace.getAgeMin()) continue;
+                if(place1.getPlace().getIdClasse() == client.getClassId() 
+                        && !(place1.getPlace().getColone() == place.getColone() && place1.getPlace().getRange() == place.getRange())
+                        && !place1.getPlace().isChecked()) {
+                    place1.getPlace().setChecked(true);
+                    listePlace.add(place1.getPlace());
+                    break;
+                }
+            }
+        }
+        
+        return listePlace;
+    }
+    
     public ArrayList<Place> getManodidinaClasse(Place c, int idClass, int nbPlace, int idVol){
         Place[] place = this.getPlace(idVol);
         ArrayList<Place> listePlace = new ArrayList<>();
@@ -197,17 +226,27 @@ public class Avion extends BddObject{
     }
     
     public static void main(String[] args) throws Exception {
+        Connection c = new BDD("i.m.a" ,"login" ,"ppm-plane" ,"postgresql").getConnection();
         Avion av = new Avion();
         av.setId(1);
-        av.find(new BDD("i.m.a" ,"login" ,"ppm-plane" ,"postgresql").getConnection());
+        av.find(c);
         
         Place pc = new Place();
         pc.setColone(6);
-        pc.setRange(2);
+        pc.setRange(1);
+        
+        ContraintePlace contraintePlace = new ContraintePlace(10, 1);
+        Client responsable = new Client();
+        responsable.find(c);
+        responsable.setId(1);
+        
+        ArrayList<Client> client = responsable.getListeReserver(c);
+        System.out.println(client.size());
+        
 //        pc.setIdClasse(1);
 //        1-2-1
-        ArrayList<Place> p = av.getManodidinaClasse(pc, 1, 2, 1);
-//        ArrayList<Place> pl = av.getManodidinaClasse(pc, 2, 5, 1);
+        ArrayList<Place> p = av.getPlaceOk(pc, contraintePlace, responsable, client,1);
+//        ArrayList<Place> p = av.getManodidinaClasse(pc, 1, 3, 1);
 //        
 //        for (Place place : pl) {
 //            p.add(place);

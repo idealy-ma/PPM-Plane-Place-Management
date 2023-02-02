@@ -96,6 +96,12 @@ CREATE TABLE Vol (
   PRIMARY KEY (id)
 );
 
+CREATE TABLE clientReserver (
+    reservationId int references reservationClient(id),
+    clientId int references client(id),
+    classId int references categorie(id)
+);
+
 ALTER TABLE AvionCategorie ADD CONSTRAINT FKAvionCateg959797 FOREIGN KEY (Avionid) REFERENCES Avion (id);
 ALTER TABLE AvionCategorie ADD CONSTRAINT FKAvionCateg512929 FOREIGN KEY (Categorieid) REFERENCES Categorie (id);
 ALTER TABLE Vol ADD CONSTRAINT FKVol561819 FOREIGN KEY (Avionid) REFERENCES Avion (id);
@@ -132,6 +138,10 @@ INSERT INTO client VALUES (nextval('seq_Client'), 'RAZAFY', 'Sarobidy', '1990-04
 INSERT INTO client VALUES (nextval('seq_Client'), 'RANDRIA', 'Holy', '1990-04-04');
 INSERT INTO client VALUES (nextval('seq_Client'), 'RAZAFY', 'Tovo', '1990-04-04');
 
+INSERT INTO client VALUES (nextval('seq_Client'), 'Nirina', 'soa', '2019-04-04');
+INSERT INTO client VALUES (nextval('seq_Client'), 'Aina', 'be', '2020-04-04');
+
+
 INSERT INTO reservationclient VALUES (default, 1, 1, 1, 2, default);
 INSERT INTO reservationclient VALUES (default, 2, 1, 2, 3, default);
 INSERT INTO reservationclient VALUES (default, 3, 1, 3, 2, default);
@@ -143,6 +153,8 @@ INSERT INTO placereserve VALUES (default, 1, 2, 2);
 
 INSERT INTO placeInvalide VALUES (1, 1, 1);
 
+INSERT INTO clientreserver VALUES (1, 5, 1);
+INSERT INTO clientreserver VALUES (1, 6, 1);
 
 CREATE OR REPLACE VIEW v_avion_categorieInfo AS (
     SELECT avionId,
@@ -180,7 +192,22 @@ CREATE OR REPLACE VIEW v_place_invalide_vol AS(
     ON vol.avionid = avion.id
 );
 
-SELECT * FROM reservationclient;
+CREATE OR REPLACE VIEW v_clientReserver AS (
+    select 
+        clientReserver.clientid id,
+        client.nom,
+        client.prenom,
+        client.datenaissance,
+        reservationclient.clientid responsableid,
+        clientreserver.classid
+    from clientreserver
+    join client
+    on client.id = clientreserver.clientid
+    join reservationclient
+    on reservationclient.id = clientreserver.reservationid
+);
+
+SELECT * FROM v;
 
 SELECT * FROM vol;
 SELECT * FROM client;

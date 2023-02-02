@@ -22,6 +22,10 @@ public class Client extends BddObject{
     private String nom;
     private String prenom;
     private Date dateNaissance;
+    
+    private int volId;
+    private int responsableId;
+    private int classId;
 
     public int getId() {
         return id;
@@ -59,6 +63,22 @@ public class Client extends BddObject{
         return LocalDate.now().getYear()-dateNaissance.toLocalDate().getYear();
     }
 
+    public int getResponsableId() {
+        return responsableId;
+    }
+
+    public void setResponsableId(int responsableId) {
+        this.responsableId = responsableId;
+    }
+
+    public int getClassId() {
+        return classId;
+    }
+
+    public void setClassId(int classId) {
+        this.classId = classId;
+    }
+
     @Override
     public void create(Connection c) throws Exception {
         String sql = "INSERT INTO client VALUES (?,?,?)";
@@ -70,13 +90,28 @@ public class Client extends BddObject{
         this.executeQuery(c, sql, al);
     }
     
+    public ArrayList<Client> getListeReserver(Connection c) throws Exception{
+        String sql = "SELECT * FROM v_clientReserver WHERE responsableId=?";
+        ArrayList<Object> listeObjet = new ArrayList<>();
+        ArrayList<Client> clients = new ArrayList<>();
+        listeObjet.add(this.getId());
+        
+        listeObjet = executeResultedQuery(c, sql, listeObjet);
+        
+        for (Object object : listeObjet) {
+            clients.add((Client)object);
+        }
+        
+        return clients;
+    }
+    
     public static void main(String[] args) {
         try {
             Client c = new Client();
             ArrayList<Object> listeClient = c.findAll(new BDD("i.m.a", "login", "ppm-plane", "postgresql").getConnection());
             for (Object object : listeClient) {
                 Client cl = (Client) object;
-                System.out.println(cl.getAge());
+                System.out.println(cl.getId()+" : "+cl.getAge());
             }
         } catch (Exception ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);

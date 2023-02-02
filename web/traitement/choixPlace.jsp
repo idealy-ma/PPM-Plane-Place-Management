@@ -3,6 +3,8 @@
     Created on : Feb 1, 2023, 11:14:44 AM
     Author     : i.m.a
 --%>
+<%@page import="model.ContraintePlace"%>
+<%@page import="model.Client"%>
 <%@page import="model.Avion"%>
 <%@page import="bdd.gestionary.BDD"%>
 <%@page import="model.Reservation"%>
@@ -20,23 +22,22 @@
     p.setColone(Integer.parseInt(pos[1]));
     p.setIdClasse(Integer.parseInt(pos[1]));
     
-    Reservation r = new Reservation();
-    r.setClientId(Integer.parseInt(request.getParameter("client")));
-    r.setVolId(Integer.parseInt(request.getParameter("vol")));
+    ContraintePlace contraintePlace = new ContraintePlace(10, 1);
     
-    ArrayList<Object> listeRes = r.findAll(new BDD("i.m.a","login","ppm-plane", "postgresql").getConnection());
+    Client responsable = new Client();
+    responsable.setId(Integer.parseInt(request.getParameter("client")));
+    responsable.find(new BDD("i.m.a" ,"login" ,"ppm-plane" ,"postgresql").getConnection());
+    
+    ArrayList<Client> client = responsable.getListeReserver(new BDD("i.m.a" ,"login" ,"ppm-plane" ,"postgresql").getConnection());
     ArrayList<Place> place = new ArrayList<>();
     
-    for (Object listeRe : listeRes) {
-        Reservation res = (Reservation) listeRe;
-        ArrayList<Place> pl = av.getManodidinaClasse(p, res.getCategorieId(), res.getNombreDePlace(), res.getVolId());
-        
-        for (Place placeItem : pl) {
-            place.add(placeItem);
-        }
+    ArrayList<Place> pl = av.getPlaceOk(p, contraintePlace, responsable, client,Integer.parseInt(request.getParameter("vol")));
+
+    for (Place placeItem : pl) {
+        place.add(placeItem);
     }
     
-    String returnValue = "../choixPlace.jsp?vol-id="+request.getParameter("vol")+"&avion="+request.getParameter("avion")+"&client="+r.getClientId()+"&";
+    String returnValue = "../choixPlace.jsp?vol-id="+request.getParameter("vol")+"&avion="+request.getParameter("avion")+"&client="+responsable.getId()+"&";
     for (Place plpl : place) {
         returnValue += "pos="+plpl.getRange()+"-"+plpl.getColone()+"&";
     }
