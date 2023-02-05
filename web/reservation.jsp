@@ -25,7 +25,7 @@
         <h1>Reservation</h1>
         <hr/>
         <div>
-            <form action="choixPlace.jsp?vol-id=<%= request.getParameter("id-vol") %>&avion=<%=request.getParameter("avion") %>" method="post">
+            <form action="ajoutInformation.jsp?vol-id=<%= request.getParameter("id-vol") %>&avion=<%=request.getParameter("avion") %>" method="post">
                 <h3>Voir directement</h3>
                 <select name="client">
                     <% for(Object o : client) { Client cl = (Client) o;%>

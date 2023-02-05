@@ -29,6 +29,12 @@ CREATE TABLE Categorie (
   PRIMARY KEY (id)
 );
 
+CREATE TABLE prixCategorie(
+   idCategorie int references categorie(id),
+   age int,
+   prixUnitaire double precision
+);
+
 CREATE TABLE Client (
   id            int4 NOT NULL, 
   nom           varchar(80), 
@@ -96,6 +102,7 @@ CREATE TABLE Vol (
   PRIMARY KEY (id)
 );
 
+drop table if exists clientreserver cascade;
 CREATE TABLE clientReserver (
     reservationId int references reservationClient(id),
     clientId int references client(id),
@@ -114,6 +121,18 @@ ALTER TABLE TarifVol ADD CONSTRAINT FKTarifVol532279 FOREIGN KEY (Volid) REFEREN
 ALTER TABLE PlaceInvalide ADD CONSTRAINT FKPlaceInval378200 FOREIGN KEY (ReservationClientid) REFERENCES ReservationClient (id);
 ALTER TABLE PlaceRestriction ADD CONSTRAINT FKPlaceRestr575140 FOREIGN KEY (ReservationClientid) REFERENCES ReservationClient (id);
 ALTER TABLE Promotion ADD CONSTRAINT FKPromotion683174 FOREIGN KEY (Volid) REFERENCES Vol (id);
+
+
+INSERT INTO prixcategorie values (1, 1, 500);
+INSERT INTO prixcategorie values (1, 2, 1000);
+
+INSERT INTO prixcategorie values (2, 1, 3000);
+INSERT INTO prixcategorie values (2, 2, 6000);
+
+INSERT INTO prixcategorie values (3, 1, 4000);
+INSERT INTO prixcategorie values (3, 2, 9000);
+
+-- select sum(prixunitaire),volid,categorieid from v_reservation_client join prixcategorie on prixcategorie.idcategorie = v_reservation_client.categorieid group by volid, categorieid;
 
 
 -- Insert
@@ -155,6 +174,20 @@ INSERT INTO placeInvalide VALUES (1, 1, 1);
 
 INSERT INTO clientreserver VALUES (1, 5, 1);
 INSERT INTO clientreserver VALUES (1, 6, 1);
+
+select * from prixcategorie;
+
+SELECT * FROM v_reservation_client WHERE 1=1 AND clientid='1' AND volid='1';
+SELECT * FROM clientreserver;
+
+
+CREATE OR REPLACE VIEW v_reservation_client AS(
+    SELECT reservationclient.*,
+           categorie.label categorie
+    FROM reservationclient
+    JOIN categorie
+    ON categorie.id = reservationclient.categorieid
+);
 
 CREATE OR REPLACE VIEW v_avion_categorieInfo AS (
     SELECT avionId,
@@ -207,15 +240,36 @@ CREATE OR REPLACE VIEW v_clientReserver AS (
     on reservationclient.id = clientreserver.reservationid
 );
 
-SELECT * FROM v;
+SELECT * FROM reservationclient from;
+
+drop view v_client_reservation_categorie;
+create or replace view v_client_reservation_categorie AS (
+    select sum(nombredeplace) nombredeplace, 
+           clientid, 
+           volid,
+           categorieid
+    from reservationclient
+    GROUP BY clientid, volid, categorieid
+);
+
+drop view v_client_reservation_categorie_label;
+CREATE or replace view v_client_reservation_categorie_label as(
+    select cast(nombredeplace as int4) nombredeplace, clientid, volid, categorieid, categorie.label categorie
+    from v_client_reservation_categorie
+    join categorie
+    on categorie.id = categorieid
+);
+
+SELECT * FROM v_clientReserver WHERE responsableId=1;
 
 SELECT * FROM vol;
 SELECT * FROM client;
 SELECT * from placereserve;
 SELECT * FROM placeInvalide;
+select * from reservationclient;
 
 SELECT * FROM v_avion_categorieinfo;
-
+SELECT * FROM v_client_reservation_categorie_label WHERE 1=1 AND clientid='2' AND volid='1';
 SELECT * FROM reservationClient WHERE 1=1 AND clientid='1' AND volid='2';
     
 

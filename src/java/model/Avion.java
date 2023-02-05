@@ -169,10 +169,13 @@ public class Avion extends BddObject{
         for (Client client : responser) {
             for (DistancePlace place1 : distPlace) {
                 if(place1.getPlace().getRange() == contraintePlace.getRang() && client.getAge() < contraintePlace.getAgeMin()) continue;
-                if(place1.getPlace().getIdClasse() == client.getClassId() 
+                if(place1.getPlace().getIdClasse() == client.getClassId()
                         && !(place1.getPlace().getColone() == place.getColone() && place1.getPlace().getRange() == place.getRange())
                         && !place1.getPlace().isChecked()) {
                     place1.getPlace().setChecked(true);
+                    place1.getPlace().setC(client);
+                    place1.getPlace().setPrixTotal(place1.getPlace().getPrixTotal()+client.getMyPrix());
+                    System.out.println(place1.getPlace().getC().getMyPrix());
                     listePlace.add(place1.getPlace());
                     break;
                 }
@@ -223,40 +226,5 @@ public class Avion extends BddObject{
                 place1.setChecked(true);
             }
         }
-    }
-    
-    public static void main(String[] args) throws Exception {
-        Connection c = new BDD("i.m.a" ,"login" ,"ppm-plane" ,"postgresql").getConnection();
-        Avion av = new Avion();
-        av.setId(1);
-        av.find(c);
-        
-        Place pc = new Place();
-        pc.setColone(6);
-        pc.setRange(1);
-        
-        ContraintePlace contraintePlace = new ContraintePlace(10, 1);
-        Client responsable = new Client();
-        responsable.find(c);
-        responsable.setId(1);
-        
-        ArrayList<Client> client = responsable.getListeReserver(c);
-        System.out.println(client.size());
-        
-//        pc.setIdClasse(1);
-//        1-2-1
-        ArrayList<Place> p = av.getPlaceOk(pc, contraintePlace, responsable, client,1);
-//        ArrayList<Place> p = av.getManodidinaClasse(pc, 1, 3, 1);
-//        
-//        for (Place place : pl) {
-//            p.add(place);
-//        }
-        
-        for (Place place : p) {
-            System.out.println(place.getRange());
-            System.out.println(place.getColone());
-            System.out.println("-----------------------------");
-        }
-        
     }
 }

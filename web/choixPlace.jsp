@@ -10,7 +10,7 @@
 <%
     Avion av = new Avion();
     av.setId(Integer.parseInt(request.getParameter("avion")));
-    av.find(new BDD("i.m.a" ,"login" ,"ppm-plane" ,"postgresql").getConnection());
+    av.find(new BDD("i.m.a","login","ppm-plane","postgresql").getConnection());
     Place[] placeAvion = av.getPlace(Integer.parseInt(request.getParameter("vol-id")));
     int classId = placeAvion[0].getIdClasse();
     String[] pos = request.getParameterValues("pos");
@@ -40,6 +40,7 @@
                     <input type="checkbox" id="id" name="name" title="invalide" disabled="true">
                 <% } else if(place.isChecked()) {%>
                     <input type="checkbox" id="id" name="name" checked="true" value="<%= place.getRange() %>-<%= place.getColone() %>-<%= place.getIdClasse()%>">
+                    <%--<%= place.getC().getAge() %>--%>
                 <% } else {%>
                     <input type="checkbox" id="id" name="name"  value="<%= place.getRange() %>-<%= place.getColone() %>-<%= place.getIdClasse()%>">
                 <% } %>

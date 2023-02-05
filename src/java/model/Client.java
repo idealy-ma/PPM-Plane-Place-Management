@@ -23,7 +23,6 @@ public class Client extends BddObject{
     private String prenom;
     private Date dateNaissance;
     
-    private int volId;
     private int responsableId;
     private int classId;
 
@@ -81,11 +80,12 @@ public class Client extends BddObject{
 
     @Override
     public void create(Connection c) throws Exception {
-        String sql = "INSERT INTO client VALUES (?,?,?)";
+        String sql = "INSERT INTO client VALUES (?,?,?,?)";
         ArrayList<Object> al = new ArrayList<>();
         al.add(this.getId());
         al.add(this.getNom());
         al.add(this.getPrenom());
+        al.add(this.getDateNaissance());
         
         this.executeQuery(c, sql, al);
     }
@@ -104,6 +104,35 @@ public class Client extends BddObject{
         
         return clients;
     }
+
+    @Override
+    public String toString() {
+        return this.getNom() + " - " + this.getPrenom() + " - " + this.getDateNaissance();
+    }
+    
+    public double getMyPrix() throws Exception{
+        double prix = 0;
+        
+//        for (Object object : list) 
+            PrixReservation p = new PrixReservation();
+            p.setIdCategorie(this.getClassId());
+            p.find(new BDD("i.m.a", "login", "ppm-plane", "postgresql").getConnection());
+            
+            System.out.println(p.getPrixUnitaire());
+            
+            if(this.getClassId() == p.getIdCategorie()){
+                if(this.getAge() >= 18){
+                    if(p.getAge() == 1){
+                        prix = p.getPrixUnitaire();
+                    } 
+                } else {
+                    prix = p.getPrixUnitaire();
+                }
+            }
+        
+        return prix;
+    }
+    
     
     public static void main(String[] args) {
         try {

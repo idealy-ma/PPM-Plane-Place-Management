@@ -14,12 +14,13 @@ import java.util.ArrayList;
  *
  * @author i.m.a
  */
-@DBTable(tableName = "reservationClient")
+@DBTable(tableName = "v_client_reservation_categorie_label")
 public class Reservation extends BddObject{
     private int id;
     private int clientId;
     private int volId;
     private int categorieId;
+    private String categorie;
     private int nombreDePlace;
     private Timestamp dateDeReservation;
 
@@ -55,6 +56,14 @@ public class Reservation extends BddObject{
         this.categorieId = categorieId;
     }
 
+    public String getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(String categorie) {
+        this.categorie = categorie;
+    }
+
     public int getNombreDePlace() {
         return nombreDePlace;
     }
@@ -82,6 +91,20 @@ public class Reservation extends BddObject{
         
         this.executeQuery(c, sql, obj);
     }
+
+    
+    public void findMe(Connection c) throws Exception {
+        String sql = "SELECT * FROM reservationClient WHERE 1=1 AND clientid=? AND volid=?";
+        ArrayList<Object> o = new ArrayList<>();
+        o.add(this.getClientId());
+        o.add(this.getVolId());
+        ArrayList<Object> objects = this.executeResultedQuery(c, sql, o);
+        Reservation res = (Reservation) objects.get(0);
+        
+        this.setId(res.getId());
+    }
+    
+    
     
     
 }

@@ -3,6 +3,7 @@
     Created on : Feb 1, 2023, 11:14:44 AM
     Author     : i.m.a
 --%>
+<%@page import="java.sql.Connection"%>
 <%@page import="model.ContraintePlace"%>
 <%@page import="model.Client"%>
 <%@page import="model.Avion"%>
@@ -11,9 +12,10 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.Place"%>
 <%
+    Connection c = new BDD("i.m.a" ,"login" ,"ppm-plane" ,"postgresql").getConnection();
     Avion av = new Avion();
     av.setId(Integer.parseInt(request.getParameter("avion")));
-    av.find(new BDD("i.m.a" ,"login" ,"ppm-plane" ,"postgresql").getConnection());
+    av.find(c);
     String[] list = request.getParameterValues("name");
     String[] pos = list[0].split("-");
     
@@ -26,12 +28,13 @@
     
     Client responsable = new Client();
     responsable.setId(Integer.parseInt(request.getParameter("client")));
-    responsable.find(new BDD("i.m.a" ,"login" ,"ppm-plane" ,"postgresql").getConnection());
+    responsable.find(c);
     
-    ArrayList<Client> client = responsable.getListeReserver(new BDD("i.m.a" ,"login" ,"ppm-plane" ,"postgresql").getConnection());
+    ArrayList<Client> client = responsable.getListeReserver(c);
     ArrayList<Place> place = new ArrayList<>();
     
     ArrayList<Place> pl = av.getPlaceOk(p, contraintePlace, responsable, client,Integer.parseInt(request.getParameter("vol")));
+    c.close();
 
     for (Place placeItem : pl) {
         place.add(placeItem);

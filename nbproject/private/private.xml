@@ -12,12 +12,14 @@
             <file>file:/home/i.m.a/Documents/Projet/PPM-Plane-Place-Management/web/ajoutInformation.jsp</file>
             <file>file:/home/i.m.a/Documents/Projet/PPM-Plane-Place-Management/src/java/model/Reservation.java</file>
             <file>file:/home/i.m.a/Documents/Projet/PPM-Plane-Place-Management/web/reservation.jsp</file>
+            <file>file:/home/i.m.a/Documents/Projet/PPM-Plane-Place-Management/web/traitement/insertionInformation.jsp</file>
             <file>file:/home/i.m.a/Documents/Projet/PPM-Plane-Place-Management/src/java/service/ReservationService.java</file>
             <file>file:/home/i.m.a/Documents/Projet/PPM-Plane-Place-Management/web/traitement/insertReservation.jsp</file>
             <file>file:/home/i.m.a/Documents/Projet/PPM-Plane-Place-Management/src/java/model/Place.java</file>
             <file>file:/home/i.m.a/Documents/Projet/PPM-Plane-Place-Management/src/java/model/ClassTarif.java</file>
             <file>file:/home/i.m.a/Documents/Projet/PPM-Plane-Place-Management/src/java/service/VolService.java</file>
             <file>file:/home/i.m.a/Documents/Projet/PPM-Plane-Place-Management/src/java/model/InfoAvion.java</file>
+            <file>file:/home/i.m.a/Documents/Projet/PPM-Plane-Place-Management/src/java/service/InformationService.java</file>
         </group>
     </open-files>
 </project-private>

@@ -16,11 +16,21 @@ public class Place extends BddObject{
     private int range;
     private int colone;
     private int idClasse;
+    private double prixTotal;
     private String classe;
     private boolean reserved;
     private boolean invalide;
     private boolean checked;
+    private Client c;
 
+    public double getPrixTotal() {
+        return prixTotal;
+    }
+
+    public void setPrixTotal(double prixTotal) {
+        this.prixTotal = prixTotal;
+    }
+    
     public boolean isChecked() {
         return checked;
     }
@@ -75,6 +85,14 @@ public class Place extends BddObject{
 
     public void setClasse(String classe) {
         this.classe = classe;
+    }
+
+    public Client getC() {
+        return c;
+    }
+
+    public void setC(Client c) {
+        this.c = c;
     }
     
     public double distancePlace(Place p){
